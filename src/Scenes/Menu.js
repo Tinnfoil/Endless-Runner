@@ -5,8 +5,7 @@ class Menu extends Phaser.Scene{
     }
 
     preload(){
-
-      this.load.audio('sfx_select', "assets/blip_select12.wav");
+        this.load.audio('sfx_select', './assets/blip_select12.wav');
     }
 
     create() {
@@ -32,10 +31,6 @@ class Menu extends Phaser.Scene{
         
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
-        //this.add.text(20,20, "Rocket Patrol Menu");
-
-        // Change Scenes
-       // this.scene.start("playScene");
     }
 
     update() {

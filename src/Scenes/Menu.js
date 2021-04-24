@@ -24,17 +24,16 @@ class Menu extends Phaser.Scene{
         }
 
         // Show menu text
-        this.add.text(game.config.width/2, game.config.height/2 - borderUISize - borderPadding, "Endless Runner", menuConfig).setOrigin(0.5);        
+        this.add.text(game.config.width/2, game.config.height/2 - 100, "Endless Runner", menuConfig).setOrigin(0.5);        
         menuConfig.backgroundColor = '#00FF00';
         menuConfig.color = '#000';
-        this.add.text(game.config.width/2, game.config.height/2 + borderUISize + borderPadding, "Press → to play", menuConfig).setOrigin(0.5);
+        this.add.text(game.config.width/2, game.config.height/2, "Press SPACE to play", menuConfig).setOrigin(0.5);
         
-        keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
-        keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
+        keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
     }
 
     update() {
-        if (Phaser.Input.Keyboard.JustDown(keyRIGHT)) {
+        if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
           this.sound.play('sfx_select');
           this.scene.start('playScene');    
         }

@@ -6,15 +6,35 @@ let config = {
     type: Phaser.CANVAS,
     width: 1280,
     height: 480,
+    scale: {
+        autoCenter: Phaser.Scale.CENTER_BOTH
+    },
+    physics: { 
+        default: 'arcade',
+        arcade:{
+            debug: true,
+            gravity:{
+                x: 0,
+                y: 0
+            }
+        }
+    },
     scene: [Menu, Play]
 }
 
 let game = new Phaser.Game(config);
 
-// Set UI sizes
-let borderUISize = game.config.height / 15;
-let borderPadding = borderUISize / 3;
-let starSpeed = 4;
+// Set Globals
+let centerX = game.config.width/2;
+let centerY = game.config.height/2;
+let gameWidth = game.config.width;
+let gameHeight = game.config.height;
+
+// Global reference the to player object
+let bike = null;
+
+// Cursor keys
+let cursors;
 
 // Reserve keyboard bindings
-let keyF, keyR, keyLEFT, keyRIGHT;
+let keyF, keyR, keyLEFT, keyRIGHT, keySPACE;

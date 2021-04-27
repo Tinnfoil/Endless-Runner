@@ -1,20 +1,20 @@
 class Obstacle extends Phaser.Physics.Arcade.Sprite {
-    constructor(scene, velocity) {
+    constructor(scene, velocity, positionX, positionY) {
         // call Phaser Physics Sprite constructor
-        super(scene, game.config.width, Phaser.Math.Between(0, game.config.height), 'obstacle'); 
+        super(scene, positionX, positionY, 'obstacle'); 
         // set up physics sprite
         scene.add.existing(this);               // add to existing scene, displayList, updateList
         scene.physics.add.existing(this);       // add to physics system
-        //this.setVelocityX(-velocity * 20);      
-        this.setImmovable();                    
-        this.newObstacle = true;                 // custom property to control barrier spawning
-        this.velocity = velocity;
+
+        this.setImmovable();   
+        this.velocity = velocity;                 
+        this.newBarrier = true;                 // custom property to control barrier spawning
     }
 
     update() {
         // add new barrier when existing barrier hits center X
-        if(this.newObstacle && this.x < centerX) {
-            this.newObstacle = false;
+        if(this.newBarrier && this.x < centerX) {
+            this.newBarrier = false;
             // (recursively) call parent scene method from this context
             this.scene.addObstacle(this.parent, this.velocity);
         }

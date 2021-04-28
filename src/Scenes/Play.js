@@ -18,17 +18,31 @@ class Play extends Phaser.Scene{
         // Create the test Background
         this.testBackground = this.add.tileSprite(0,0, gameWidth, gameHeight, 'testBackground').setOrigin(0,0);
 
-        bike = this.physics.add.sprite(32, centerY, 'bike').setOrigin(0.5);
+        this.physics.world.setBoundsCollision(false, false, true, true);
+
+        bike = this.physics.add.sprite(64, centerY, 'bike').setOrigin(0.5);
         bike.setCollideWorldBounds(true);
         bike.setBounce(0.5);
         bike.setImmovable();
-        bike.setMaxVelocity(0, 600);
+        bike.setMaxVelocity(500, 600);
         bike.setDragY(200);
+        bike.setDragX(100);
         bike.setDepth(1);             
         bike.setBlendMode('SCREEN');  // set a WebGL blend mode
+
+        // bike speed parameters
+        this.bikeSpeedMult = 1;
+        this.bikePedalForce = 100;
+        this.minAccelerationX = 50;
+        this.maxAccelerationX = 200;
+
+        bike.setAccelerationX(-this.minAccelerationX);
+
     
         // Set up global cursor reference
         cursors = this.input.keyboard.createCursorKeys();
+
+        keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
         // Create obstacle group
         this.obstacles = this.add.group({runChildUpdate:true});
@@ -60,10 +74,24 @@ class Play extends Phaser.Scene{
 
         // Keep this on the bottom
         this.updateDeltaTime();
+
+        if (Phaser.Input.Keyboard.JustDown(keySPACE)){
+            console.log("bout to pedal")
+            this.bikePedal();
+        }
+        
+        if (bike.x + bike.width < 0){
+            this.gameOver();
+        }
     }
 
     bikeCollision() {
-       console.log("Collided");
+        console.log("Colliding");
+        bike.body.velocity.x -= 100;
+    }
+
+    bikePedal() {
+        bike.body.velocity.x += this.bikePedalForce;
     }
 
     getTime(){
@@ -81,6 +109,11 @@ class Play extends Phaser.Scene{
     updateDeltaTime(){
         //reset the start time
         this.startTime = this.getTime(); 
+    }
+
+    gameOver(){
+        console.log("You lost!");
+        this.scene.start("menuScene");
     }
 
 }

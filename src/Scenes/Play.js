@@ -38,11 +38,14 @@ class Play extends Phaser.Scene{
         this.minAccelerationX = 50;
         this.maxAccelerationX = 200;
 
+        this.minSpeedY = 1;
+        this.maxSpeedY = 5;
+        this.speedY = this.maxSpeedY;
+
         bike.setAccelerationX(-this.minAccelerationX);
 
         this.baseWorldSpeed = 5;
 
-    
         // Set up global cursor reference
         cursors = this.input.keyboard.createCursorKeys();
 
@@ -81,7 +84,7 @@ class Play extends Phaser.Scene{
         this.bot.update();
 
         // Move the bike base on mouse. Finding difference in the y
-        bike.body.velocity.y = (game.input.mousePointer.y - bike.body.y) * 5;
+        bike.body.velocity.y = (game.input.mousePointer.y - bike.body.y) * this.speedY;
 
         // check for collisions
         this.physics.world.collide(bike, this.obstacles, this.bikeCollision, null, this);
@@ -158,5 +161,12 @@ class Play extends Phaser.Scene{
         
         // Increase the world speed up to 2x when close to center
         this.obstacleSpeed = this.baseWorldSpeed * (this.bikePosRatioX + 1);
+
+        if (this.bikePosRatioX < 1) {
+            this.speedY = (this.maxSpeedY - this.minSpeedY) * (1 - this.bikePosRatioX) + this.minSpeedY;
+        }
+        else {
+            this.speedY = this.minSpeedY;
+        }
     }
 }

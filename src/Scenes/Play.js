@@ -16,6 +16,7 @@ class Play extends Phaser.Scene{
     create() {
         //Initialize start Time for a timer;
         this.startTime = this.getTime();
+        this.timePassed = 0;
 
         // Create the test Background
         this.testBackground = this.add.tileSprite(0,0, gameWidth, gameHeight, 'testBackground').setOrigin(0,0);
@@ -110,9 +111,6 @@ class Play extends Phaser.Scene{
         // check for collisions
         this.physics.world.collide(bike, this.obstacles, this.bikeCollision, null, this);
 
-        // Keep this on the bottom
-        this.updateDeltaTime();
-
         // EDIT THIS to check timing 
         if (this.pedalLeftNotRight && Phaser.Input.Keyboard.JustDown(keyLEFT)){
             console.log("pedal left");
@@ -131,6 +129,10 @@ class Play extends Phaser.Scene{
         }
 
         this.setBikePosRatioX();
+
+        this.timePassed += this.getDeltaTime();
+        // Keep this on the bottom
+        this.updateDeltaTime();
     }
 
     // Must be updated to happen more with more regularity
@@ -181,7 +183,7 @@ class Play extends Phaser.Scene{
         bike.setAccelerationX(-((this.maxAccelerationX - this.minAccelerationX) * this.bikePosRatioX + this.minAccelerationX))
         
         // Increase the world speed up to 2x when close to center
-        this.obstacleSpeed = this.baseWorldSpeed * (this.bikePosRatioX + 1);
+        this.obstacleSpeed = (this.baseWorldSpeed + this.timePassed/100000) * (this.bikePosRatioX + 1);
 
         if (this.bikePosRatioX < 1) {
             this.speedY = (this.maxSpeedY - this.minSpeedY) * (1 - this.bikePosRatioX) + this.minSpeedY;

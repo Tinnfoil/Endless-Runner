@@ -8,7 +8,9 @@ class Play extends Phaser.Scene{
 
         this.load.image('testBackground', './assets/TestBG.png');
         this.load.image('obstacle', './assets/TestObstacle.png');
-        this.load.image('bot', './assets/TestBot.png')
+        this.load.image('bot', './assets/TestBot.png');
+        this.load.image('ui_a', './assets/ui_a.png');
+        this.load.image('ui_d', './assets/ui_d.png');
     }
 
     create() {
@@ -32,7 +34,7 @@ class Play extends Phaser.Scene{
 
         // bike speed parameters
         this.bikeSpeedMult = 1;
-        this.bikePedalForce = 100;
+        this.bikePedalForce = 50;
         this.minAccelerationX = 50;
         this.maxAccelerationX = 200;
 
@@ -45,6 +47,16 @@ class Play extends Phaser.Scene{
         cursors = this.input.keyboard.createCursorKeys();
 
         keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+
+        // pedaling buttons
+        keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+        keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+
+        this.pedalUI_A = this.add.sprite(0, game.config.height, 'ui_a').setOrigin(0, 1);
+        this.pedalUI_D = this.add.sprite(64, game.config.height, 'ui_d').setOrigin(0, 1);
+
+        this.pedalLeftNotRight = true;
+        this.pedalUI_D.setVisible(false);
 
         // Create obstacle group
         this.obstacles = this.add.group({runChildUpdate:true});
@@ -78,9 +90,15 @@ class Play extends Phaser.Scene{
         this.updateDeltaTime();
 
         // EDIT THIS to check timing 
-        if (Phaser.Input.Keyboard.JustDown(keySPACE)){
-            console.log("pedaling");
+        if (this.pedalLeftNotRight && Phaser.Input.Keyboard.JustDown(keyLEFT)){
+            console.log("pedal left");
             this.bikePedal();
+        } else if(!this.pedalLeftNotRight && Phaser.Input.Keyboard.JustDown(keyRIGHT)) {
+            console.log("pedal right");
+            this.bikePedal();
+        }
+        if (keySPACE.isDown) {
+            this.bikeBreak();
         }
         
         // If the player edges off the side of the screen, lose
@@ -94,12 +112,19 @@ class Play extends Phaser.Scene{
     // Must be updated to happen more with more regularity
     bikeCollision() {
         console.log("Colliding");
-        bike.body.velocity.x -= 100;
+        bike.body.velocity.x -= 200;
     }
 
     // Adds a bit of force to bike NEEDS EDITING
     bikePedal() {
         bike.body.velocity.x += this.bikePedalForce;
+        this.pedalLeftNotRight = !this.pedalLeftNotRight;
+        this.pedalUI_A.setVisible(this.pedalLeftNotRight);
+        this.pedalUI_D.setVisible(!this.pedalLeftNotRight);
+    }
+
+    bikeBreak() {
+        bike.body.velocity.x -= 10;
     }
 
     getTime(){
@@ -114,12 +139,12 @@ class Play extends Phaser.Scene{
         return elapsed; 
     }
 
-    updateDeltaTime(){
+    updateDeltaTime() {
         //reset the start time
         this.startTime = this.getTime(); 
     }
 
-    gameOver(){
+    gameOver() {
         console.log("You lost!");
         this.scene.start("menuScene");
     }
@@ -131,6 +156,7 @@ class Play extends Phaser.Scene{
         this.bikePosRatioX = bike.body.x / (game.config.width/2);
         bike.setAccelerationX(-((this.maxAccelerationX - this.minAccelerationX) * this.bikePosRatioX + this.minAccelerationX))
         
+        // Increase the world speed up to 2x when close to center
         this.obstacleSpeed = this.baseWorldSpeed * (this.bikePosRatioX + 1);
     }
 }

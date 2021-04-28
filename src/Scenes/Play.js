@@ -24,7 +24,7 @@ class Play extends Phaser.Scene{
         bike.setCollideWorldBounds(true);
         bike.setBounce(0.5);
         bike.setImmovable();
-        bike.setMaxVelocity(500, 600);
+        bike.setMaxVelocity(300, 600);
         bike.setDragY(200);
         bike.setDragX(100);
         bike.setDepth(1);             
@@ -37,6 +37,8 @@ class Play extends Phaser.Scene{
         this.maxAccelerationX = 200;
 
         bike.setAccelerationX(-this.minAccelerationX);
+
+        this.baseWorldSpeed = 5;
 
     
         // Set up global cursor reference
@@ -53,7 +55,7 @@ class Play extends Phaser.Scene{
         this.addObstacle();
     }
 
-        // create new obstacles
+    // create new obstacles
     addObstacle() {
         let obstacle = new Obstacle(this, this.obstacleSpeed, this.bot.x, this.bot.y);
         this.obstacles.add(obstacle);
@@ -75,21 +77,27 @@ class Play extends Phaser.Scene{
         // Keep this on the bottom
         this.updateDeltaTime();
 
+        // EDIT THIS to check timing 
         if (Phaser.Input.Keyboard.JustDown(keySPACE)){
-            console.log("bout to pedal")
+            console.log("pedaling");
             this.bikePedal();
         }
         
+        // If the player edges off the side of the screen, lose
         if (bike.x + bike.width < 0){
             this.gameOver();
         }
+
+        this.setBikePosRatioX();
     }
 
+    // Must be updated to happen more with more regularity
     bikeCollision() {
         console.log("Colliding");
         bike.body.velocity.x -= 100;
     }
 
+    // Adds a bit of force to bike NEEDS EDITING
     bikePedal() {
         bike.body.velocity.x += this.bikePedalForce;
     }
@@ -116,4 +124,13 @@ class Play extends Phaser.Scene{
         this.scene.start("menuScene");
     }
 
+    // Creates a variable from 0 (player is on left side of screen)
+    // to 1 (player in in middle of screen), and increases the speed of
+    // the game world to match.
+    setBikePosRatioX () {
+        this.bikePosRatioX = bike.body.x / (game.config.width/2);
+        bike.setAccelerationX(-((this.maxAccelerationX - this.minAccelerationX) * this.bikePosRatioX + this.minAccelerationX))
+        
+        this.obstacleSpeed = this.baseWorldSpeed * (this.bikePosRatioX + 1);
+    }
 }

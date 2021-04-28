@@ -18,6 +18,23 @@ class Play extends Phaser.Scene{
         // Create the test Background
         this.testBackground = this.add.tileSprite(0,0, gameWidth, gameHeight, 'testBackground').setOrigin(0,0);
 
+        // Create Score Text
+        let scoreConfig = {
+            fontFamily: 'Courier',
+            fontSize: '28px',
+            backgroundColor: '#F3B141',
+            color: '#843605',
+            align: 'right',
+            padding: {
+                top: 5, 
+                bottom: 5
+            },
+        }
+        this.scoreConfig = scoreConfig;
+        this.scoreText = this.add.text(20, 20 , "Score: 0", scoreConfig);
+        this.score = 0;
+
+        // Add Bike
         bike = this.physics.add.sprite(32, centerY, 'bike').setOrigin(0.5);
         bike.setCollideWorldBounds(true);
         bike.setBounce(0.5);
@@ -43,6 +60,10 @@ class Play extends Phaser.Scene{
     addObstacle() {
         let obstacle = new Obstacle(this, this.obstacleSpeed, this.bot.x, this.bot.y);
         this.obstacles.add(obstacle);
+
+        //Temporary Scoring
+        this.score += 1;
+        this.scoreText.text = "Score: " + this.score;
     }
 
     update(){

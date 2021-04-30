@@ -34,9 +34,9 @@ class Play extends Phaser.Scene{
 
         // bike speed parameters
         this.bikeSpeedMult = 1;
-        this.bikePedalForce = 50;
-        this.minAccelerationX = 50;
-        this.maxAccelerationX = 200;
+        this.bikePedalForce = 30;
+        this.minAccelerationX = 30;
+        this.maxAccelerationX = 300;
 
         this.minSpeedY = 1;
         this.maxSpeedY = 5;
@@ -94,10 +94,10 @@ class Play extends Phaser.Scene{
 
         // EDIT THIS to check timing 
         if (this.pedalLeftNotRight && Phaser.Input.Keyboard.JustDown(keyLEFT)){
-            console.log("pedal left");
+            //console.log("pedal left");
             this.bikePedal();
         } else if(!this.pedalLeftNotRight && Phaser.Input.Keyboard.JustDown(keyRIGHT)) {
-            console.log("pedal right");
+            //console.log("pedal right");
             this.bikePedal();
         }
         if (keySPACE.isDown) {

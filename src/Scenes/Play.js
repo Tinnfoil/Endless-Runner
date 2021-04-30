@@ -109,7 +109,7 @@ class Play extends Phaser.Scene{
         bike.body.velocity.y = (game.input.mousePointer.y - bike.body.y) * this.speedY;
 
         // check for collisions
-        this.physics.world.collide(bike, this.obstacles, this.bikeCollision, null, this);
+        this.physics.world.collide(bike, this.obstacles, function(bikeRef, obstacleRef){this.bikeCollision(bikeRef, obstacleRef);}, null, this);
 
         // EDIT THIS to check timing 
         if (this.pedalLeftNotRight && Phaser.Input.Keyboard.JustDown(keyLEFT)){
@@ -129,6 +129,8 @@ class Play extends Phaser.Scene{
         }
 
         this.setBikePosRatioX();
+        
+        this.obstacleParticles = this.add.particles('obstacle'); 
 
         this.timePassed += this.getDeltaTime();
         // Keep this on the bottom
@@ -136,9 +138,23 @@ class Play extends Phaser.Scene{
     }
 
     // Must be updated to happen more with more regularity
-    bikeCollision() {
+    bikeCollision(bikeRef, obstacleRef) {
         console.log("Colliding");
         bike.body.velocity.x -= 200;
+        this.emit = this.obstacleParticles.createEmitter({
+            //frame: ['obstacle', 'bot'],
+            x: bike.x + bike.width/2,
+            y: bike.y,
+            speed: 1000,
+            lifespan: 200,
+            blendMode: 'ADD',
+            frequency: 20,
+            maxParticles: 10,
+            alpha: {start: 1, end: 0},
+            scale: {start: 1, end: 0}
+        });
+
+        obstacleRef.destroy();
     }
 
     // Adds a bit of force to bike NEEDS EDITING

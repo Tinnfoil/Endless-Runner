@@ -9,6 +9,8 @@ class Bot extends Phaser.Physics.Arcade.Sprite {
         this.velocity = velocity;
         this.targetY = bike.y;
         this.interval = Math.random() * 1000;
+
+        this.spawnInterval = gameWidth/scene.baseWorldSpeed * 10 /2 ;
     }
 
     update() {
@@ -16,6 +18,13 @@ class Bot extends Phaser.Physics.Arcade.Sprite {
         if(this.interval <= 0){
             this.targetY = bike.y + (Math.random() * 32 - 16);
             this.interval = Math.random() * 500 + 500; 
+        }
+
+        this.spawnInterval -= this.scene.getDeltaTime();
+        //console.log(this.spawnInterval);
+        if(this.spawnInterval <= 0){
+            this.scene.addObstacle();
+            this.spawnInterval = gameWidth/this.scene.baseWorldSpeed * 10 /2;
         }
         
         //console.log(this.targetY, this.interval);

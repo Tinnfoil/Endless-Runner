@@ -4,11 +4,11 @@ class Play extends Phaser.Scene{
     }
 
     preload(){
-        this.load.image('bike', './assets/TestBike.png');
+        this.load.image('bike', './assets/Bike_01.png');
 
-        this.load.image('testBackground', './assets/TestBG.png');
-        this.load.image('obstacle', './assets/TestObstacle.png');
-        this.load.image('bot', './assets/TestBot.png');
+        this.load.image('playground', './assets/TestBG.png');
+        this.load.image('obstacle', './assets/Obstacle.png');
+        this.load.image('bot', './assets/Robot.png');
         this.load.image('ui_a', './assets/ui_a.png');
         this.load.image('ui_d', './assets/ui_d.png');
     }
@@ -18,8 +18,8 @@ class Play extends Phaser.Scene{
         this.startTime = this.getTime();
         this.timePassed = 0;
 
-        // Create the test Background
-        this.testBackground = this.add.tileSprite(0,0, gameWidth, gameHeight, 'testBackground').setOrigin(0,0);
+        // Create the playground
+        this.playground = this.add.tileSprite(0,0, gameWidth, gameHeight, 'playground').setOrigin(0,0);
 
         // Create Score Text
         let scoreConfig = {
@@ -100,7 +100,7 @@ class Play extends Phaser.Scene{
 
     update(){
         // Bg Movement
-        this.testBackground.tilePositionX += this.obstacleSpeed;
+        this.playground.tilePositionX += this.obstacleSpeed;
 
         //Update Bot
         this.bot.update();

@@ -89,8 +89,8 @@ class Play extends Phaser.Scene{
     }
 
     // create new obstacles
-    addObstacle() {
-        let obstacle = new Obstacle(this, this.obstacleSpeed, this.bot.x, this.bot.y);
+    addObstacle(xOffset = 0, yOffset = 0) {
+        let obstacle = new Obstacle(this, this.obstacleSpeed, this.bot.x + xOffset, this.bot.y + yOffset);
         this.obstacles.add(obstacle);
 
         //Temporary Scoring

@@ -79,6 +79,8 @@ class Play extends Phaser.Scene{
         this.pedalLeftNotRight = true;
         this.pedalUI_D.setVisible(false);
 
+        this.pedalSound = this.sound.add('sfx_pedal', {volume: 0.25});
+
         // Create obstacle group
         this.obstacles = this.add.group({runChildUpdate:true});
         this.obstacleSpeed = 5;
@@ -147,6 +149,10 @@ class Play extends Phaser.Scene{
         this.pedalLeftNotRight = !this.pedalLeftNotRight;
         this.pedalUI_A.setVisible(this.pedalLeftNotRight);
         this.pedalUI_D.setVisible(!this.pedalLeftNotRight);
+
+        this.pedalSound.stop();
+        this.pedalSound.setRate(this.bikePosRatioX * 0.1 + 1);
+        this.pedalSound.play();
     }
 
     bikeBreak() {

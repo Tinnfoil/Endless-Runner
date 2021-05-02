@@ -52,7 +52,7 @@ class Play extends Phaser.Scene{
 
         // bike speed parameters
         this.bikeSpeedMult = 1;
-        this.bikePedalForce = 30;
+        this.bikePedalForce = 60;
         this.minAccelerationX = 30;
         this.maxAccelerationX = 300;
 
@@ -84,6 +84,12 @@ class Play extends Phaser.Scene{
         // Create obstacle group
         this.obstacles = this.add.group({runChildUpdate:true});
         this.obstacleSpeed = 5;
+
+        this.junkSounds = [3];
+
+        this.junkSounds[0] = this.sound.add('sfx_junk1', {volume: 0.25});
+        this.junkSounds[1] = this.sound.add('sfx_junk2', {volume: 0.25});
+        this.junkSounds[2] = this.sound.add('sfx_junk3', {volume: 0.25});
 
         this.bot = new Bot(this, this.obstacleSpeed);
 
@@ -155,6 +161,8 @@ class Play extends Phaser.Scene{
             alpha: {start: 1, end: 0},
             scale: {start: 1, end: 0}
         });
+
+        this.junkSounds[Math.floor(Math.random() * 3)].play();
 
         obstacleRef.destroy();
     }

@@ -72,8 +72,6 @@ class Play extends Phaser.Scene{
             repeat: -1
         });
 
-        bike.anims.play('pedal');
-
         // bike speed parameters
         this.bikeSpeedMult = 1;
         this.bikePedalForce = 60;
@@ -156,6 +154,7 @@ class Play extends Phaser.Scene{
         if(this.started == false && (Phaser.Input.Keyboard.JustDown(keyLEFT) || Phaser.Input.Keyboard.JustDown(keyRIGHT))){         
             this.controls.destroy(); 
             bike.setAccelerationX(-this.minAccelerationX);
+            bike.anims.play('pedal');
             this.started = true;
         }
         if(this.started == false) return;
@@ -231,7 +230,7 @@ class Play extends Phaser.Scene{
 
         this.pedalSound.stop();
         this.pedalSound.setRate(this.bikePosRatioX * 0.1 + 1);
-        this.pedalSound.play();
+        this.pedalSound.play();      
     }
 
     bikeBreak() {

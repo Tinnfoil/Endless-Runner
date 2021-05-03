@@ -16,6 +16,7 @@ class Play extends Phaser.Scene{
         //this.load.image('bot', './assets/Robot.png');
         this.load.image('ui_a', './assets/ui_a.png');
         this.load.image('ui_d', './assets/ui_d.png');
+        this.load.image('ui_off', './assets/ui_off.png');
     }
 
     create() {
@@ -93,15 +94,19 @@ class Play extends Phaser.Scene{
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
 
+        this.pedalUI_OFF = this.add.sprite(0, game.config.height, 'ui_off').setOrigin(0, 1);
         this.pedalUI_A = this.add.sprite(0, game.config.height, 'ui_a').setOrigin(0, 1);
         this.pedalUI_D = this.add.sprite(0, game.config.height, 'ui_d').setOrigin(0, 1);
 
         this.pedalLeftNotRight = true;
+        this.canPedal = true;
         this.pedalUI_D.setVisible(false);
+        this.pedalUI_OFF.setDepth(4);
         this.pedalUI_A.setDepth(5);
         this.pedalUI_D.setDepth(5);
 
-        this.pedalSound = this.sound.add('sfx_pedal', {volume: 0.25});
+        this.pedalSFX_L = this.sound.add('sfx_pedal_l', {volume: 0.25});
+        this.pedalSFX_R = this.sound.add('sfx_pedal_r', {volume: 0.25});
 
         // Create obstacle group
         this.obstacles = this.add.group({runChildUpdate:true});
@@ -174,13 +179,15 @@ class Play extends Phaser.Scene{
         this.physics.world.collide(bike, this.obstacles, function(bikeRef, obstacleRef){this.bikeCollision(bikeRef, obstacleRef);}, null, this);
 
         // EDIT THIS to check timing 
-        if (this.pedalLeftNotRight && Phaser.Input.Keyboard.JustDown(keyLEFT)){
+        if (this.canPedal && this.pedalLeftNotRight && Phaser.Input.Keyboard.JustDown(keyLEFT)){
             //console.log("pedal left");
             this.bikePedal();
-        } else if(!this.pedalLeftNotRight && Phaser.Input.Keyboard.JustDown(keyRIGHT)) {
+        } else if(this.canPedal && !this.pedalLeftNotRight && Phaser.Input.Keyboard.JustDown(keyRIGHT)) {
             //console.log("pedal right");
             this.bikePedal();
         }
+        //if (keySPACE.)
+
         if (keySPACE.isDown) {
             this.bikeBreak();
         }
@@ -202,7 +209,7 @@ class Play extends Phaser.Scene{
     // Must be updated to happen more with more regularity
     bikeCollision(bikeRef, obstacleRef) {
         console.log("Colliding");
-        bike.body.velocity.x -= 300;
+        bike.body.velocity.x -= 600;
         this.emit = this.obstacleParticles.createEmitter({
             //frame: ['obstacle', 'bot'],
             x: bike.x + bike.width/2,
@@ -229,12 +236,26 @@ class Play extends Phaser.Scene{
             bike.body.velocity.x += this.bikePedalForce;
         }
         this.pedalLeftNotRight = !this.pedalLeftNotRight;
+        this.canPedal = false;
+        this.pedalUI_A.setVisible(false);
+        this.pedalUI_D.setVisible(false);
+
+        this.pedalSFX_L.stop();
+        this.pedalSFX_R.stop();
+        if (this.pedalLeftNotRight) {
+            this.pedalSFX_L.setRate(this.bikePosRatioX * 0.1 + 1);
+            this.pedalSFX_L.play();  
+        } else {
+            this.pedalSFX_R.setRate(this.bikePosRatioX * 0.1 + 1);
+            this.pedalSFX_R.play(); 
+        }
+        this.time.delayedCall(100, ()=> this.bikePedalReset(), null, this);
+    }
+
+    bikePedalReset () {
         this.pedalUI_A.setVisible(this.pedalLeftNotRight);
         this.pedalUI_D.setVisible(!this.pedalLeftNotRight);
-
-        this.pedalSound.stop();
-        this.pedalSound.setRate(this.bikePosRatioX * 0.1 + 1);
-        this.pedalSound.play();      
+        this.canPedal = true;
     }
 
     bikeBreak() {

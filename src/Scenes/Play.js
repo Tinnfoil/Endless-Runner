@@ -214,6 +214,8 @@ class Play extends Phaser.Scene{
         if (bike.x + bike.width/2 < 0){
             this.gameOver();
             this.music.stop();
+            this.pedalSFX_L.stop();
+            this.pedalSFX_R.stop();
         }
 
         this.setBikePosRatioX();
@@ -321,6 +323,7 @@ class Play extends Phaser.Scene{
     gameOver() {
         console.log("You lost!");
         this.scene.start("loseScene");
+        this.junkSounds[Math.floor(Math.random() * 3)].play({volume: 0.66, playRate: 0.25});
     }
 
     // Creates a variable from 0 (player is on left side of screen)

@@ -60,6 +60,10 @@ class Play extends Phaser.Scene{
         bike.setDepth(1);             
         bike.setBlendMode('SCREEN');  // set a WebGL blend mode
 
+        //Time the player cannot pedal
+        this.stunTime = 0;
+        this.flashInterval = 100;
+
         this.anims.create({
             key: 'pedal',
             frames: this.anims.generateFrameNames('atlas', {
@@ -179,10 +183,10 @@ class Play extends Phaser.Scene{
         this.physics.world.collide(bike, this.obstacles, function(bikeRef, obstacleRef){this.bikeCollision(bikeRef, obstacleRef);}, null, this);
 
         // EDIT THIS to check timing 
-        if (this.canPedal && this.pedalLeftNotRight && Phaser.Input.Keyboard.JustDown(keyLEFT)){
+        if (this.canPedal && this.pedalLeftNotRight && Phaser.Input.Keyboard.JustDown(keyLEFT) && this.stunTime <= 0){
             //console.log("pedal left");
             this.bikePedal();
-        } else if(this.canPedal && !this.pedalLeftNotRight && Phaser.Input.Keyboard.JustDown(keyRIGHT)) {
+        } else if(this.canPedal && !this.pedalLeftNotRight && Phaser.Input.Keyboard.JustDown(keyRIGHT)&& this.stunTime <= 0) {
             //console.log("pedal right");
             this.bikePedal();
         }
@@ -200,6 +204,23 @@ class Play extends Phaser.Scene{
         this.setBikePosRatioX();
         
         this.obstacleParticles = this.add.particles('obstacle'); 
+
+        this.stunTime -= this.getDeltaTime();
+        if(this.stunTime > 0){
+            this.flashInterval -= this.getDeltaTime();
+            if(this.flashInterval <= 0){
+                if(bike.alpha ==1){
+                    bike.alpha = 0;
+                }
+                else{
+                    bike.alpha = 1;
+                }
+                this.flashInterval = 100;
+            }
+        }
+        else{
+            bike.alpha = 1;
+        }
 
         this.timePassed += this.getDeltaTime();
         // Keep this on the bottom
@@ -224,6 +245,9 @@ class Play extends Phaser.Scene{
         });
 
         this.junkSounds[Math.floor(Math.random() * 3)].play();
+
+        // Set time player cannot pedal
+        this.stunTime = 1250;
 
         obstacleRef.destroy();
     }

@@ -213,7 +213,7 @@ class Play extends Phaser.Scene{
 
     gameOver() {
         console.log("You lost!");
-        this.scene.start("menuScene");
+        this.scene.start("loseScene");
     }
 
     // Creates a variable from 0 (player is on left side of screen)

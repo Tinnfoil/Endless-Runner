@@ -19,7 +19,7 @@ let config = {
             }
         }
     },
-    scene: [Menu, Play]
+    scene: [Menu, Play, Lose]
 }
 
 let game = new Phaser.Game(config);
@@ -37,4 +37,4 @@ let bike = null;
 let cursors;
 
 // Reserve keyboard bindings
-let keyF, keyR, keyLEFT, keyRIGHT, keySPACE;
+let keyF, keyR, keyLEFT, keyRIGHT, keySPACE, keyESC;

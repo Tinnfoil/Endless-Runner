@@ -42,6 +42,7 @@ class Play extends Phaser.Scene{
         }
         this.scoreConfig = scoreConfig;
         this.scoreText = this.add.text(20, 20 , "Score: 0", scoreConfig);
+        game.settings.score = 0;
 
         // Add Bike
         this.physics.world.setBoundsCollision(false, false, true, true);

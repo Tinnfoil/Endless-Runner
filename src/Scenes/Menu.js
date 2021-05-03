@@ -10,6 +10,7 @@ class Menu extends Phaser.Scene{
         this.load.audio('sfx_pedal_l', './assets/sfx_pedal_l.wav');
         this.load.audio('sfx_pedal_r', './assets/sfx_pedal_r.wav');
         this.load.audio('sfx_pedal_click', './assets/sfx_pedal_click.wav');
+        this.load.audio('sfx_pedal_brake', './assets/sfx_brake.wav');
         this.load.audio('sfx_junk1', './assets/JunkPile1.wav');
         this.load.audio('sfx_junk2', './assets/JunkPile2.wav');
         this.load.audio('sfx_junk3', './assets/JunkPile3.wav');

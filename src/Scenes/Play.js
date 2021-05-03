@@ -112,6 +112,7 @@ class Play extends Phaser.Scene{
         this.pedalSFX_L = this.sound.add('sfx_pedal_l', {volume: 0.25});
         this.pedalSFX_R = this.sound.add('sfx_pedal_r', {volume: 0.25});
         this.pedalSFX_click = this.sound.add('sfx_pedal_click', {volume: 0.33});
+        this.brakeSFX = this.sound.add('sfx_pedal_brake', {volume: 0.25});
 
         // Create obstacle group
         this.obstacles = this.add.group({runChildUpdate:true});
@@ -199,11 +200,13 @@ class Play extends Phaser.Scene{
         }
 
         if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
-
+            this.brakeSFX.play();
         }
-
         if (keySPACE.isDown) {
             this.bikeBreak();
+        }
+        if (Phaser.Input.Keyboard.JustUp(keySPACE)) {
+            this.brakeSFX.stop();
         }
         
         // If the player edges off the side of the screen, lose

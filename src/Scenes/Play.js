@@ -33,9 +33,9 @@ class Play extends Phaser.Scene{
         // Create Score Text
         let scoreConfig = {
             fontFamily: 'Courier',
-            fontSize: '28px',
-            backgroundColor: '#F3B141',
-            color: '#843605',
+            fontSize: '60px',
+            //backgroundColor: '#F3B141',
+            color: '#ffffff',
             align: 'right',
             padding: {
                 top: 5, 
@@ -43,7 +43,7 @@ class Play extends Phaser.Scene{
             },
         }
         this.scoreConfig = scoreConfig;
-        this.scoreText = this.add.text(20, 20 , "Score: 0", scoreConfig);
+        this.scoreText = this.add.text(centerX, 40 , "0", scoreConfig).setOrigin(.5);
         game.settings.score = 0;
 
         // Add Bike
@@ -156,7 +156,7 @@ class Play extends Phaser.Scene{
             
             //Temporary Scoring
             game.settings.score += 1;
-            this.scoreText.text = "Score: " + game.settings.score;
+            this.scoreText.text = "" + game.settings.score;
         }
     }
 

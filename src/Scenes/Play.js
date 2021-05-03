@@ -107,6 +107,7 @@ class Play extends Phaser.Scene{
 
         this.pedalSFX_L = this.sound.add('sfx_pedal_l', {volume: 0.25});
         this.pedalSFX_R = this.sound.add('sfx_pedal_r', {volume: 0.25});
+        this.pedalSFX_click = this.sound.add('sfx_pedal_click', {volume: 0.33});
 
         // Create obstacle group
         this.obstacles = this.add.group({runChildUpdate:true});
@@ -185,15 +186,24 @@ class Play extends Phaser.Scene{
         } else if(this.canPedal && !this.pedalLeftNotRight && Phaser.Input.Keyboard.JustDown(keyRIGHT)) {
             //console.log("pedal right");
             this.bikePedal();
+        } else if(this.canPedal && Phaser.Input.Keyboard.JustDown(keyRIGHT) || Phaser.Input.Keyboard.JustDown(keyLEFT)) {
+            this.canPedal = false;
+            this.pedalUI_A.setVisible(false);
+            this.pedalUI_D.setVisible(false);
+            this.pedalSFX_click.play();
+            this.time.delayedCall(200, ()=> this.bikePedalReset(), null, this);
         }
-        //if (keySPACE.)
+
+        if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
+
+        }
 
         if (keySPACE.isDown) {
             this.bikeBreak();
         }
         
         // If the player edges off the side of the screen, lose
-        if (bike.x + bike.width < 0){
+        if (bike.x + bike.width/2 < 0){
             this.gameOver();
         }
 

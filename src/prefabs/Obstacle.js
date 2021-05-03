@@ -21,7 +21,10 @@ class Obstacle extends Phaser.Physics.Arcade.Sprite {
         }
 
         //this.x -= this.scene.obstacleSpeed;
-        this.body.velocity.x = - this.scene.obstacleSpeed * 60;
+        if(this.scene.started){
+            this.body.velocity.x = - this.scene.obstacleSpeed * 60;
+        }
+
         // destroy paddle if it reaches the left edge of the screen
         if(this.x < -this.width) {
             this.destroy();

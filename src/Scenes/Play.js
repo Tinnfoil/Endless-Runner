@@ -12,6 +12,7 @@ class Play extends Phaser.Scene{
         this.load.image('foreground', './assets/Foreground.png');
 
         this.load.image('obstacle', './assets/Obstacle.png');
+        this.load.image('controls', './assets/Controls.png');
         //this.load.image('bot', './assets/Robot.png');
         this.load.image('ui_a', './assets/ui_a.png');
         this.load.image('ui_d', './assets/ui_d.png');
@@ -83,8 +84,6 @@ class Play extends Phaser.Scene{
         this.maxSpeedY = 5;
         this.speedY = this.maxSpeedY;
 
-        bike.setAccelerationX(-this.minAccelerationX);
-
         this.baseWorldSpeed = 5;
 
         // Set up global cursor reference
@@ -134,6 +133,9 @@ class Play extends Phaser.Scene{
 
         this.bot.anims.play('fly');
 
+        this.controls = this.add.sprite(centerX, centerY, 'controls').setOrigin(.5);
+        this.started = false;
+
         this.addObstacle();
     }
 
@@ -150,6 +152,13 @@ class Play extends Phaser.Scene{
     }
 
     update(){
+
+        if(this.started == false && (Phaser.Input.Keyboard.JustDown(keyLEFT) || Phaser.Input.Keyboard.JustDown(keyRIGHT))){         
+            this.controls.destroy(); 
+            bike.setAccelerationX(-this.minAccelerationX);
+            this.started = true;
+        }
+        if(this.started == false) return;
         // Bg Movement
         this.background.tilePositionX += this.obstacleSpeed/2;
         this.playground.tilePositionX += this.obstacleSpeed;

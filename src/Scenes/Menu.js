@@ -5,7 +5,7 @@ class Menu extends Phaser.Scene{
 
     preload(){
         this.load.image('title', './assets/TitleScreen.png');
-        this.load.audio('sfx_select', './assets/blip_select12.wav');
+        this.load.audio('sfx_select', './assets/sfx_select2.wav');
         this.load.audio('sfx_pedal_l', './assets/sfx_pedal_l.wav');
         this.load.audio('sfx_pedal_r', './assets/sfx_pedal_r.wav');
         this.load.audio('sfx_pedal_click', './assets/sfx_pedal_click.wav');
@@ -23,6 +23,8 @@ class Menu extends Phaser.Scene{
         this.title = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'title').setOrigin(0);
         
         keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+
+        sfx_select = this.sound.add('sfx_select', {volume: 0.5, rate: 3});
     }
 
     update() {
@@ -30,7 +32,7 @@ class Menu extends Phaser.Scene{
           game.settings = {                                 // To Keep track of score across scenes
             score: 0                                       // Feel free to edit if you can improve
           }                                                 // - Collin
-          this.sound.play('sfx_select');
+          sfx_select.play();
           this.scene.start('playScene');    
         }
       }

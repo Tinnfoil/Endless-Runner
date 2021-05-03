@@ -48,3 +48,5 @@ let cursors;
 
 // Reserve keyboard bindings
 let keyF, keyR, keyLEFT, keyRIGHT, keySPACE, keyESC;
+
+let sfx_select;

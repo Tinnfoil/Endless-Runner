@@ -32,11 +32,11 @@ class Lose extends Phaser.Scene{
 
     update() {
         if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
-          this.sound.play('sfx_select');
+          sfx_select.play();
           this.scene.start('playScene');    
         }
         if (Phaser.Input.Keyboard.JustDown(keyESC)) {
-            this.sound.play('sfx_select');
+            sfx_select.play();
             this.scene.start('menuScene');    
           }
       }

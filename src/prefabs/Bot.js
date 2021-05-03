@@ -18,7 +18,7 @@ class Bot extends Phaser.Physics.Arcade.Sprite {
         this.interval -= this.scene.getDeltaTime();
         if(this.interval <= 0){
             this.targetY = bike.y + (Math.random() * 32 - 16);
-            this.interval = Math.random() * 500 + 500; 
+            this.interval = Math.random() * 700 + 700; 
         }
 
         this.spawnInterval -= this.scene.getDeltaTime();

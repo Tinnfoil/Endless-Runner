@@ -13,8 +13,8 @@ class Bot extends Phaser.Physics.Arcade.Sprite {
         this.spawnInterval = gameWidth/scene.baseWorldSpeed * 10 /2 ;
 
         this.dropSounds = [2];
-        this.dropSounds [0] = scene.sound.add('sfx_drop1', {volume: 0.25});
-        this.dropSounds [1] = scene.sound.add('sfx_drop2', {volume: 0.25});    
+        this.dropSounds [0] = scene.sound.add('sfx_drop1', {volume: 0.2});
+        this.dropSounds [1] = scene.sound.add('sfx_drop2', {volume: 0.2});    
     }
 
     update() {

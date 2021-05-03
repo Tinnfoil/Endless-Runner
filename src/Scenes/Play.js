@@ -145,6 +145,9 @@ class Play extends Phaser.Scene{
         this.started = false;
 
         this.addObstacle();
+
+        this.music = this.sound.add('gameplay_music', {volume: 0.25, repeat: -1});
+        this.music.play();
     }
 
     // create new obstacles
@@ -211,6 +214,7 @@ class Play extends Phaser.Scene{
         // If the player edges off the side of the screen, lose
         if (bike.x + bike.width/2 < 0){
             this.gameOver();
+            this.music.stop();
         }
 
         this.setBikePosRatioX();

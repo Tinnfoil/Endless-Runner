@@ -119,10 +119,9 @@ class Play extends Phaser.Scene{
         this.obstacleSpeed = 5;
 
         this.junkSounds = [3];
-
         this.junkSounds[0] = this.sound.add('sfx_junk1', {volume: 0.25});
         this.junkSounds[1] = this.sound.add('sfx_junk2', {volume: 0.25});
-        this.junkSounds[2] = this.sound.add('sfx_junk3', {volume: 0.25});
+        this.junkSounds[2] = this.sound.add('sfx_junk3', {volume: 0.25});    
 
         this.bot = new Bot(this, this.obstacleSpeed);
         this.bot.scale = .8;

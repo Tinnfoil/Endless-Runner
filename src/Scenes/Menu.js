@@ -14,6 +14,8 @@ class Menu extends Phaser.Scene{
         this.load.audio('sfx_junk1', './assets/JunkPile1.wav');
         this.load.audio('sfx_junk2', './assets/JunkPile2.wav');
         this.load.audio('sfx_junk3', './assets/JunkPile3.wav');
+        this.load.audio('sfx_drop1', './assets/sfx_drop1.wav');
+        this.load.audio('sfx_drop2', './assets/sfx_drop2.wav');
     }
 
     create() {

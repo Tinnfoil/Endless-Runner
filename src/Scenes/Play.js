@@ -4,14 +4,15 @@ class Play extends Phaser.Scene{
     }
 
     preload(){
-        this.load.image('bike', './assets/Bike_01.png');
+        this.load.atlas('atlas', './assets/spritesheet.png', './assets/sprites.json');
+        //this.load.image('bike', './assets/Bike_01.png');
 
         this.load.image('background', './assets/Background.png');
-        this.load.image('playground', './assets/Playarea.png');
-        this.load.image('foreground', './assets/Forground.png');
+        this.load.image('playground', './assets/Playground.png');
+        this.load.image('foreground', './assets/Foreground.png');
 
         this.load.image('obstacle', './assets/Obstacle.png');
-        this.load.image('bot', './assets/Robot.png');
+        //this.load.image('bot', './assets/Robot.png');
         this.load.image('ui_a', './assets/ui_a.png');
         this.load.image('ui_d', './assets/ui_d.png');
     }
@@ -23,7 +24,7 @@ class Play extends Phaser.Scene{
 
         // Create the playground
         this.background = this.add.tileSprite(0,0, gameWidth, 140, 'background').setOrigin(0,0);
-        this.playground = this.add.tileSprite(0,140, gameWidth, gameHeight - 140, 'playground').setOrigin(0,0);
+        this.playground = this.add.tileSprite(0,90, gameWidth, gameHeight - 90, 'playground').setOrigin(0,0);
         this.foreground = this.add.tileSprite(0,gameHeight - 140, gameWidth, 140, 'foreground').setOrigin(0,0);
 
         // Create Score Text
@@ -45,7 +46,7 @@ class Play extends Phaser.Scene{
         // Add Bike
         this.physics.world.setBoundsCollision(false, false, true, true);
 
-        bike = this.physics.add.sprite(64, centerY, 'bike').setOrigin(0.5);
+        bike = this.physics.add.sprite(64, centerY, 'atlas', 'bike01').setOrigin(0.5);
         bike.scale = .8;
         bike.setCollideWorldBounds(true);
         bike.setBounce(0.5);
@@ -55,6 +56,21 @@ class Play extends Phaser.Scene{
         bike.setDragX(100);
         bike.setDepth(1);             
         bike.setBlendMode('SCREEN');  // set a WebGL blend mode
+
+        this.anims.create({
+            key: 'pedal',
+            frames: this.anims.generateFrameNames('atlas', {
+                prefix: 'bike',
+                start: 1,
+                end: 8,
+                suffix: '',
+                zeroPad: 2
+            }),
+            frameRate: 8,
+            repeat: -1
+        });
+
+        bike.anims.play('pedal');
 
         // bike speed parameters
         this.bikeSpeedMult = 1;
@@ -98,6 +114,22 @@ class Play extends Phaser.Scene{
         this.junkSounds[2] = this.sound.add('sfx_junk3', {volume: 0.25});
 
         this.bot = new Bot(this, this.obstacleSpeed);
+        this.bot.scale = .8;
+
+        this.anims.create({
+            key: 'fly',
+            frames: this.anims.generateFrameNames('atlas', {
+                prefix: 'robot',
+                start: 1,
+                end: 4,
+                suffix: '',
+                zeroPad: 2
+            }),
+            frameRate: 4,
+            repeat: -1
+        });
+
+        this.bot.anims.play('fly');
 
         this.addObstacle();
     }

@@ -1,7 +1,7 @@
 class Bot extends Phaser.Physics.Arcade.Sprite {
     constructor(scene, velocity) {
         // call Phaser Physics Sprite constructor
-        super(scene, game.config.width - 100, game.config.height/2, 'bot'); 
+        super(scene, game.config.width - 100, game.config.height/2, 'atlas', 'robot01'); 
         // set up physics sprite
         scene.add.existing(this);               // add to existing scene, displayList, updateList
         scene.physics.add.existing(this);       // add to physics system  
@@ -11,6 +11,7 @@ class Bot extends Phaser.Physics.Arcade.Sprite {
         this.interval = Math.random() * 1000;
 
         this.spawnInterval = gameWidth/scene.baseWorldSpeed * 10 /2 ;
+
     }
 
     update() {

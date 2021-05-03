@@ -144,7 +144,7 @@ class Play extends Phaser.Scene{
 
         this.addObstacle();
 
-        this.music = this.sound.add('gameplay_music', {volume: 0.25, repeat: -1});
+        this.music = this.sound.add('gameplay_music', {volume: 0.25, loop: true});
         this.music.play();
     }
 

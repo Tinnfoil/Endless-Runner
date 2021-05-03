@@ -139,12 +139,9 @@ class Play extends Phaser.Scene{
             repeat: -1
         });
 
-        this.bot.anims.play('fly');
-
         this.controls = this.add.sprite(centerX, centerY, 'controls').setOrigin(.5);
         this.started = false;
 
-        this.addObstacle();
     }
 
     // create new obstacles
@@ -165,6 +162,7 @@ class Play extends Phaser.Scene{
             this.controls.destroy(); 
             bike.setAccelerationX(-this.minAccelerationX);
             bike.anims.play('pedal');
+            this.bot.anims.play('fly');
             this.started = true;
         }
         if(this.started == false) return;

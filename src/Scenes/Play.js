@@ -41,7 +41,6 @@ class Play extends Phaser.Scene{
         }
         this.scoreConfig = scoreConfig;
         this.scoreText = this.add.text(20, 20 , "Score: 0", scoreConfig);
-        this.score = 0;
 
         // Add Bike
         this.physics.world.setBoundsCollision(false, false, true, true);
@@ -96,7 +95,7 @@ class Play extends Phaser.Scene{
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
 
         this.pedalUI_A = this.add.sprite(0, game.config.height, 'ui_a').setOrigin(0, 1);
-        this.pedalUI_D = this.add.sprite(64, game.config.height, 'ui_d').setOrigin(0, 1);
+        this.pedalUI_D = this.add.sprite(0, game.config.height, 'ui_d').setOrigin(0, 1);
 
         this.pedalLeftNotRight = true;
         this.pedalUI_D.setVisible(false);
@@ -141,8 +140,8 @@ class Play extends Phaser.Scene{
             this.obstacles.add(obstacle);
             
             //Temporary Scoring
-            this.score += 1;
-            this.scoreText.text = "Score: " + this.score;
+            game.settings.score += 1;
+            this.scoreText.text = "Score: " + game.settings.score;
         }
     }
 

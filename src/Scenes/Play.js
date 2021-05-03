@@ -202,7 +202,7 @@ class Play extends Phaser.Scene{
     // Must be updated to happen more with more regularity
     bikeCollision(bikeRef, obstacleRef) {
         console.log("Colliding");
-        bike.body.velocity.x -= 200;
+        bike.body.velocity.x -= 300;
         this.emit = this.obstacleParticles.createEmitter({
             //frame: ['obstacle', 'bot'],
             x: bike.x + bike.width/2,
@@ -223,7 +223,11 @@ class Play extends Phaser.Scene{
 
     // Adds a bit of force to bike NEEDS EDITING
     bikePedal() {
-        bike.body.velocity.x += this.bikePedalForce;
+        if (this.bikePosRatioX > 1) {
+            bike.body.velocity.x += this.bikePedalForce * (1.5 - this.bikePosRatioX);
+        } else {
+            bike.body.velocity.x += this.bikePedalForce;
+        }
         this.pedalLeftNotRight = !this.pedalLeftNotRight;
         this.pedalUI_A.setVisible(this.pedalLeftNotRight);
         this.pedalUI_D.setVisible(!this.pedalLeftNotRight);

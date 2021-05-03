@@ -26,6 +26,7 @@ class Play extends Phaser.Scene{
         this.background = this.add.tileSprite(0,0, gameWidth, 140, 'background').setOrigin(0,0);
         this.playground = this.add.tileSprite(0,90, gameWidth, gameHeight - 90, 'playground').setOrigin(0,0);
         this.foreground = this.add.tileSprite(0,gameHeight - 140, gameWidth, 140, 'foreground').setOrigin(0,0);
+        this.foreground.setDepth(3);
 
         // Create Score Text
         let scoreConfig = {
@@ -99,6 +100,8 @@ class Play extends Phaser.Scene{
 
         this.pedalLeftNotRight = true;
         this.pedalUI_D.setVisible(false);
+        this.pedalUI_A.setDepth(5);
+        this.pedalUI_D.setDepth(5);
 
         this.pedalSound = this.sound.add('sfx_pedal', {volume: 0.25});
 

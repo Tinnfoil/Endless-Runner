@@ -1,5 +1,14 @@
-// Server Command:  py -3 -m http.server
-//const Phaser = require("../lib/phaser");
+/*
+Title: Bot Chaser
+
+Kenny Doan
+Harrison Kurtz
+Collin Rowell
+
+Date: 5/3/21
+
+Creative Tilt: Endless runner with petaling mechanics that mimic it as it's control scheme
+*/
 
 //Game Configuration
 let config = {

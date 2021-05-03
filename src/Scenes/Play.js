@@ -50,7 +50,7 @@ class Play extends Phaser.Scene{
         this.physics.world.setBoundsCollision(false, false, true, true);
 
         bike = this.physics.add.sprite(64, centerY, 'atlas', 'bike01').setOrigin(0.5);
-        bike.scale = .8;
+        bike.scale = .7;
         bike.setCollideWorldBounds(true);
         bike.setBounce(0.5);
         bike.setImmovable();

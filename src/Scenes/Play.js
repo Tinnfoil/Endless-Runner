@@ -6,7 +6,10 @@ class Play extends Phaser.Scene{
     preload(){
         this.load.image('bike', './assets/Bike_01.png');
 
-        this.load.image('playground', './assets/TestBG.png');
+        this.load.image('background', './assets/Background.png');
+        this.load.image('playground', './assets/Playarea.png');
+        this.load.image('foreground', './assets/Forground.png');
+
         this.load.image('obstacle', './assets/Obstacle.png');
         this.load.image('bot', './assets/Robot.png');
         this.load.image('ui_a', './assets/ui_a.png');
@@ -19,7 +22,9 @@ class Play extends Phaser.Scene{
         this.timePassed = 0;
 
         // Create the playground
-        this.playground = this.add.tileSprite(0,0, gameWidth, gameHeight, 'playground').setOrigin(0,0);
+        this.background = this.add.tileSprite(0,0, gameWidth, 140, 'background').setOrigin(0,0);
+        this.playground = this.add.tileSprite(0,140, gameWidth, gameHeight - 140, 'playground').setOrigin(0,0);
+        this.foreground = this.add.tileSprite(0,gameHeight - 140, gameWidth, 140, 'foreground').setOrigin(0,0);
 
         // Create Score Text
         let scoreConfig = {
@@ -41,6 +46,7 @@ class Play extends Phaser.Scene{
         this.physics.world.setBoundsCollision(false, false, true, true);
 
         bike = this.physics.add.sprite(64, centerY, 'bike').setOrigin(0.5);
+        bike.scale = .8;
         bike.setCollideWorldBounds(true);
         bike.setBounce(0.5);
         bike.setImmovable();
@@ -98,23 +104,28 @@ class Play extends Phaser.Scene{
 
     // create new obstacles
     addObstacle(xOffset = 0, yOffset = 0) {
-        let obstacle = new Obstacle(this, this.obstacleSpeed, this.bot.x + xOffset, this.bot.y + yOffset);
-        this.obstacles.add(obstacle);
-
-        //Temporary Scoring
-        this.score += 1;
-        this.scoreText.text = "Score: " + this.score;
+        if(this.bot.y + yOffset > 130 + 30){
+            let obstacle = new Obstacle(this, this.obstacleSpeed, this.bot.x + xOffset, this.bot.y + yOffset);
+            this.obstacles.add(obstacle);
+            
+            //Temporary Scoring
+            this.score += 1;
+            this.scoreText.text = "Score: " + this.score;
+        }
     }
 
     update(){
         // Bg Movement
+        this.background.tilePositionX += this.obstacleSpeed/2;
         this.playground.tilePositionX += this.obstacleSpeed;
+        this.foreground.tilePositionX += this.obstacleSpeed * 1.5;
 
         //Update Bot
         this.bot.update();
 
         // Move the bike base on mouse. Finding difference in the y
         bike.body.velocity.y = (game.input.mousePointer.y - bike.body.y) * this.speedY;
+        if(bike.y < 140){bike.y = 140;}
 
         // check for collisions
         this.physics.world.collide(bike, this.obstacles, function(bikeRef, obstacleRef){this.bikeCollision(bikeRef, obstacleRef);}, null, this);

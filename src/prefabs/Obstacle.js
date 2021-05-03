@@ -9,6 +9,7 @@ class Obstacle extends Phaser.Physics.Arcade.Sprite {
         this.setImmovable();   
         this.velocity = velocity;                 
         this.newBarrier = true;                 // custom property to control barrier spawning
+        this.scale = .5;
     }
 
     update() {

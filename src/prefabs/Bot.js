@@ -26,7 +26,7 @@ class Bot extends Phaser.Physics.Arcade.Sprite {
             this.scene.addObstacle();
 
             let i = 0;
-            let num = Math.random() * 3;
+            let num = Math.random() * 2;
             for (i = 0; i < num ; i++) {
                 this.scene.addObstacle(300,(Math.random() * 400) - 200);
             }

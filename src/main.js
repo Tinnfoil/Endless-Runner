@@ -7,7 +7,8 @@ Collin Rowell
 
 Date: 5/3/21
 
-Creative Tilt: Endless runner with petaling mechanics that mimic it as it's control scheme
+Creative Tilt: Endless runner with pedaling mechanics that mimic it as it's control scheme
+And custom made sound effects and techno music.
 */
 
 //Game Configuration
